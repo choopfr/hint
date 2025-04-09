@@ -1,12 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>View Hint</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hint App</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container">
+    <h1>Create or View Hints</h1>
+
+    <!-- Form for creating or editing hints -->
+    <div id="create-form">
+      <input id="create-hint" placeholder="Enter a hint..." />
+      <input id="create-msg" placeholder="Enter a message..." />
+      <button onclick="createHint()">Save Hint</button>
+      <button id="edit-btn" onclick="editHint()" style="display:none;">Edit Hint</button>
+      <button id="delete-btn" onclick="deleteHint()" style="display:none;">Delete Hint</button>
+      <p id="create-status"></p>
+    </div>
+
+    <!-- Progress bar -->
+    <div id="progress-bar" style="display:none;">
+      <div id="progress" style="height: 4px; width: 0%; background-color: #00ff00;"></div>
+    </div>
+
+    <!-- Hints List -->
+    <div id="hint-list">
+      <h2>Available Hints</h2>
+      <div id="hints"></div>
+    </div>
+  </div>
+
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, doc, getDoc, deleteDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyD4BMJXDCPb0YD4enpmV_xOPMFi6WtffxY",
@@ -21,50 +50,97 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    window.fetchHint = async function () {
-      const hint = document.getElementById("enter-hint").value.trim();
-      const output = document.getElementById("output-msg");
+    let currentHintId = null;
 
-      if (!hint) {
-        output.textContent = "Please enter a hint.";
+    window.createHint = async function () {
+      const hint = document.getElementById("create-hint").value.trim();
+      const message = document.getElementById("create-msg").value.trim();
+      const status = document.getElementById("create-status");
+
+      if (!hint || !message) {
+        status.textContent = "Please fill out both fields.";
         return;
       }
 
       try {
-        const q = query(collection(db, "hints"), where("hint", "==", hint));
-        const snapshot = await getDocs(q);
-        if (!snapshot.empty) {
-          output.textContent = snapshot.docs[0].data().message;
+        // Show progress bar while saving
+        document.getElementById("progress-bar").style.display = "block";
+        let progress = 0;
+        const interval = setInterval(() => {
+          if (progress < 100) {
+            progress += 10;
+            document.getElementById("progress").style.width = `${progress}%`;
+          } else {
+            clearInterval(interval);
+          }
+        }, 200);
+
+        if (currentHintId) {
+          // Edit existing hint
+          const hintRef = doc(db, "hints", currentHintId);
+          await setDoc(hintRef, { hint, message });
+          status.textContent = "✅ Hint updated!";
         } else {
-          output.textContent = "No message found for that hint.";
+          // Create new hint
+          await addDoc(collection(db, "hints"), { hint, message });
+          status.textContent = "✅ Hint saved!";
         }
+        resetForm();
       } catch (error) {
         console.error(error);
-        output.textContent = "❌ Error fetching hint.";
+        status.textContent = "❌ Error saving hint.";
       }
     };
 
-    // Submit on Enter key
-    document.addEventListener("DOMContentLoaded", () => {
-      const inputs = document.querySelectorAll("input");
-      inputs.forEach((input) => {
-        input.addEventListener("keydown", (e) => {
-          if (e.key === "Enter") {
-            fetchHint();
-          }
-        });
-      });
-    });
-  </script>
-</head>
-<body>
-  <nav><a href="create.html">➕ Create Hint</a></nav>
+    window.fetchHint = async function (id) {
+      const hintRef = doc(db, "hints", id);
+      const docSnap = await getDoc(hintRef);
+      
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        document.getElementById("create-hint").value = data.hint;
+        document.getElementById("create-msg").value = data.message;
+        currentHintId = id;
+        document.getElementById("edit-btn").style.display = "inline-block";
+        document.getElementById("delete-btn").style.display = "inline-block";
+      } else {
+        console.log("No such document!");
+      }
+    };
 
-  <div class="container">
-    <h1>View a Hint</h1>
-    <input id="enter-hint" placeholder="Enter your hint..." />
-    <button onclick="fetchHint()">Get Message</button>
-    <p id="output-msg"></p>
-  </div>
+    window.deleteHint = async function () {
+      const hintRef = doc(db, "hints", currentHintId);
+      try {
+        await deleteDoc(hintRef);
+        document.getElementById("create-status").textContent = "✅ Hint deleted!";
+        resetForm();
+      } catch (error) {
+        console.error(error);
+        document.getElementById("create-status").textContent = "❌ Error deleting hint.";
+      }
+    };
+
+    function resetForm() {
+      currentHintId = null;
+      document.getElementById("create-hint").value = "";
+      document.getElementById("create-msg").value = "";
+      document.getElementById("edit-btn").style.display = "none";
+      document.getElementById("delete-btn").style.display = "none";
+      document.getElementById("progress-bar").style.display = "none";
+    }
+
+    // Fetch and display all hints
+    window.onload = async function() {
+      const querySnapshot = await getDocs(collection(db, "hints"));
+      const hintsDiv = document.getElementById("hints");
+      querySnapshot.forEach((doc) => {
+        const hintData = doc.data();
+        const hintElement = document.createElement("div");
+        hintElement.className = "hint";
+        hintElement.innerHTML = `<strong>${hintData.hint}</strong>: ${hintData.message}<button onclick="fetchHint('${doc.id}')">Edit</button>`;
+        hintsDiv.appendChild(hintElement);
+      });
+    };
+  </script>
 </body>
 </html>
