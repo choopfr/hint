@@ -20,7 +20,35 @@
     <p>Select an action from the taskbar to get started!</p>
   </div>
 
+  <!-- Background animation -->
   <div id="background-animation"></div>
+
+  <script>
+    // Random Dot Animation Script
+    function generateDots() {
+      const background = document.getElementById('background-animation');
+      
+      for (let i = 0; i < 50; i++) {
+        const dot = document.createElement('div');
+        dot.classList.add('dot');
+        
+        // Random position
+        const x = Math.random() * window.innerWidth;
+        const y = Math.random() * window.innerHeight;
+        const dx = (Math.random() - 0.5) * 2; // Random direction and speed in x-axis
+        const dy = (Math.random() - 0.5) * 2; // Random direction and speed in y-axis
+
+        dot.style.left = `${x}px`;
+        dot.style.top = `${y}px`;
+        dot.style.setProperty('--dx', `${dx}px`);
+        dot.style.setProperty('--dy', `${dy}px`);
+
+        background.appendChild(dot);
+      }
+    }
+
+    window.onload = generateDots;
+  </script>
 
 </body>
 </html>
