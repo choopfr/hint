@@ -18,61 +18,54 @@
   <div class="container w-11/12 max-w-4xl mx-auto mt-20 p-8 bg-gray-800 rounded-lg shadow-lg">
     <h1 class="text-center text-4xl font-bold text-indigo-500">message vault</h1>
     <p class="text-center text-lg mt-3 text-gray-300">create and unlock your messages with unique keys</p>
+    
+    <!-- Stats board (Message of the Day) -->
+    <div class="mt-12 text-center bg-gray-700 p-6 rounded-lg shadow-lg">
+      <h2 class="text-2xl font-semibold text-indigo-400">Message of the Day</h2>
+      <p class="mt-4 text-lg text-gray-200">"Your key to unlocking tomorrow's wisdom!"</p>
+      <p class="mt-6 text-sm text-gray-500">Total Messages Created: <span id="total-messages">5</span></p>
+    </div>
+
+    <!-- Create Message Button -->
     <div class="mt-12 text-center">
       <a href="create.html" class="p-6 inline-block bg-indigo-600 text-white rounded-md text-xl hover:bg-indigo-700 transition-all">create a new message</a>
     </div>
   </div>
 
+  <!-- Animated Background Dots -->
   <div id="background-animation"></div>
 
   <script>
-    // random dot animation script for smooth continuous movement
-    const dots = [];
+    // Dot animation (simplified version)
+    const background = document.getElementById('background-animation');
 
-    function generateDots() {
-      const background = document.getElementById('background-animation');
-      
-      for (let i = 0; i < 80; i++) {
-        const dot = document.createElement('div');
-        dot.classList.add('dot');
-        
-        // random position and speed
-        const x = Math.random() * window.innerWidth;
-        const y = Math.random() * window.innerHeight;
-        const dx = (Math.random() - 0.5) * 2; // random direction and speed in x-axis
-        const dy = (Math.random() - 0.5) * 2; // random direction and speed in y-axis
+    for (let i = 0; i < 50; i++) {
+      const dot = document.createElement('div');
+      dot.classList.add('dot');
+      const size = Math.random() * 3 + 2; // Random size
+      dot.style.width = `${size}px`;
+      dot.style.height = `${size}px`;
+      dot.style.left = `${Math.random() * window.innerWidth}px`;
+      dot.style.top = `${Math.random() * window.innerHeight}px`;
+      background.appendChild(dot);
 
-        dot.style.left = `${x}px`;
-        dot.style.top = `${y}px`;
-        dot.style.setProperty('--dx', `${dx}px`);
-        dot.style.setProperty('--dy', `${dy}px`);
+      // Animation logic: move the dots randomly
+      let dx = (Math.random() - 0.5) * 2; // Random horizontal speed
+      let dy = (Math.random() - 0.5) * 2; // Random vertical speed
 
-        background.appendChild(dot);
-        dots.push(dot);
+      function moveDot() {
+        let x = parseFloat(dot.style.left);
+        let y = parseFloat(dot.style.top);
+        if (x < 0 || x > window.innerWidth) dx = -dx; // Bounce back when hitting edges
+        if (y < 0 || y > window.innerHeight) dy = -dy; // Bounce back when hitting edges
+
+        dot.style.left = `${x + dx}px`;
+        dot.style.top = `${y + dy}px`;
+        requestAnimationFrame(moveDot);
       }
+
+      moveDot();
     }
-
-    function animateDots() {
-      dots.forEach(dot => {
-        const currentX = parseFloat(dot.style.left);
-        const currentY = parseFloat(dot.style.top);
-        const dx = parseFloat(dot.style.getPropertyValue('--dx'));
-        const dy = parseFloat(dot.style.getPropertyValue('--dy'));
-
-        dot.style.left = `${currentX + dx}px`;
-        dot.style.top = `${currentY + dy}px`;
-
-        if (currentX < 0 || currentX > window.innerWidth) dot.style.setProperty('--dx', -dx);
-        if (currentY < 0 || currentY > window.innerHeight) dot.style.setProperty('--dy', -dy);
-      });
-
-      requestAnimationFrame(animateDots);
-    }
-
-    window.onload = () => {
-      generateDots();
-      animateDots();
-    };
   </script>
 </body>
 </html>
