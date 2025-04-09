@@ -16,12 +16,14 @@
     <a href="view.html" class="mx-5 text-lg hover:underline">view hints</a>
   </div>
 
-  <div class="container w-11/12 max-w-4xl mx-auto mt-20 p-5 bg-gray-800 rounded-lg shadow-lg">
-    <h1 class="text-center text-2xl font-bold">welcome to hint app</h1>
-    <p class="text-center text-lg mt-3">select an action from the taskbar to get started!</p>
+  <div class="container w-11/12 max-w-4xl mx-auto mt-20 p-8 bg-gray-800 rounded-lg shadow-lg">
+    <h1 class="text-center text-4xl font-bold text-indigo-500">hint app</h1>
+    <p class="text-center text-lg mt-3 text-gray-300">a space to create, edit, and view hints</p>
+    <div class="mt-12 text-center">
+      <a href="create.html" class="p-6 inline-block bg-indigo-600 text-white rounded-md text-xl hover:bg-indigo-700 transition-all">create a new hint</a>
+    </div>
   </div>
 
-  <!-- Background animation -->
   <div id="background-animation"></div>
 
   <script>
@@ -29,7 +31,7 @@
     function generateDots() {
       const background = document.getElementById('background-animation');
       
-      for (let i = 0; i < 50; i++) {
+      for (let i = 0; i < 80; i++) {
         const dot = document.createElement('div');
         dot.classList.add('dot');
         
