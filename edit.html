@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Hint</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Taskbar at the top -->
+  <div class="taskbar">
+    <a href="index.html">Home</a>
+    <a href="create.html">Create Hint</a>
+    <a href="view.html">View Hints</a>
+  </div>
+
+  <div class="container">
+    <h1>Edit an Existing Hint</h1>
+    <form id="edit-form">
+      <select id="hint-select" onchange="fetchHint()">
+        <option value="">Select a Hint to Edit</option>
+      </select>
+      <input id="edit-hint" placeholder="Enter the new hint..." required />
+      <input id="edit-msg" placeholder="Enter the new message..." required />
+      <button type="button" onclick="editHint()">Save Changes</button>
+      <p id="edit-status"></p>
+    </form>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getFirestore, collection, getDocs, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD4BMJXDCPb0YD4enpmV_xOPMFi6WtffxY",
+      authDomain: "hint-9661b.firebaseapp.com",
+      projectId: "hint-9661b",
+      storageBucket: "hint-9661b.firebasestorage.app",
+      messagingSenderId: "667786662167",
+      appId: "1:667786662167:web:31a8ac0a7ffc3b30586752",
+      measurementId: "G-S8BYZRVEWW"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    let currentHintId = null;
+
+    async function fetchHint() {
+      const select = document.getElementById("hint-select");
+      const selectedId = select.value;
+      if (!selectedId) return;
+
+      const hintRef = doc(db, "hints", selectedId);
+      const docSnap = await getDocs(hintRef);
+
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        document.getElementById("edit-hint").value = data.hint;
+        document.getElementById("edit-msg").value = data.message;
+        currentHintId = selectedId;
+      } else {
+        console.log("No such document!");
+      }
+    }
+
+    window.editHint = async function () {
+      const hint = document.getElementById("edit-hint").value.trim();
+      const message = document.getElementById("edit-msg").value.trim();
+      const status = document.getElementById("edit-status");
+
+      if (!hint || !message) {
+        status.textContent = "Please fill out both fields.";
+        return;
+      }
+
+      try {
+        const hintRef = doc(db, "hints", currentHintId);
+        await setDoc(hintRef, { hint, message });
+        status.textContent = "✅ Hint updated!";
+      } catch (error) {
+        console.error(error);
+        status.textContent = "❌ Error updating hint.";
+      }
+    };
+
+    window.onload = async function () {
+      const querySnapshot = await getDocs(collection(db, "hints"));
+      const select = document.getElementById("hint-select");
+      querySnapshot.forEach(doc => {
+        const option = document.createElement("option");
+        option.value = doc.id;
+        option.textContent = doc.data().hint;
+        select.appendChild(option);
+      });
+    };
+  </script>
+
+</body>
+</html>
