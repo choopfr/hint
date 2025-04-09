@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Hint</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Taskbar at the top -->
+  <div class="taskbar">
+    <a href="index.html">Home</a>
+    <a href="edit.html">Edit Hint</a>
+    <a href="view.html">View Hints</a>
+  </div>
+
+  <div class="container">
+    <h1>Create a New Hint</h1>
+    <form id="create-form">
+      <input id="create-hint" placeholder="Enter a hint..." required />
+      <input id="create-msg" placeholder="Enter a message..." required />
+      <button type="button" onclick="createHint()">Save Hint</button>
+      <p id="create-status"></p>
+    </form>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD4BMJXDCPb0YD4enpmV_xOPMFi6WtffxY",
+      authDomain: "hint-9661b.firebaseapp.com",
+      projectId: "hint-9661b",
+      storageBucket: "hint-9661b.firebasestorage.app",
+      messagingSenderId: "667786662167",
+      appId: "1:667786662167:web:31a8ac0a7ffc3b30586752",
+      measurementId: "G-S8BYZRVEWW"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    window.createHint = async function () {
+      const hint = document.getElementById("create-hint").value.trim();
+      const message = document.getElementById("create-msg").value.trim();
+      const status = document.getElementById("create-status");
+
+      if (!hint || !message) {
+        status.textContent = "Please fill out both fields.";
+        return;
+      }
+
+      try {
+        await addDoc(collection(db, "hints"), { hint, message });
+        status.textContent = "✅ Hint saved!";
+        document.getElementById("create-form").reset();
+      } catch (error) {
+        console.error(error);
+        status.textContent = "❌ Error saving hint.";
+      }
+    };
+  </script>
+</body>
+</html>
