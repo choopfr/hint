@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View Hints</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Taskbar at the top -->
+  <div class="taskbar">
+    <a href="index.html">Home</a>
+    <a href="create.html">Create Hint</a>
+    <a href="edit.html">Edit Hint</a>
+  </div>
+
+  <div class="container">
+    <h1>View All Hints</h1>
+    <div id="hint-list"></div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD4BMJXDCPb0YD4enpmV_xOPMFi6WtffxY",
+      authDomain: "hint-9661b.firebaseapp.com",
+      projectId: "hint-9661b",
+      storageBucket: "hint-9661b.firebasestorage.app",
+      messagingSenderId: "667786662167",
+      appId: "1:667786662167:web:31a8ac0a7ffc3b30586752",
+      measurementId: "G-S8BYZRVEWW"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    window.onload = async function () {
+      const querySnapshot = await getDocs(collection(db, "hints"));
+      const hintsDiv = document.getElementById("hint-list");
+      hintsDiv.innerHTML = ""; // Clear the list before updating
+      querySnapshot.forEach(doc => {
+        const hintData = doc.data();
+        const hintElement = document.createElement("div");
+        hintElement.className = "hint";
+        hintElement.innerHTML = `<strong>${hintData.hint}</strong>: ${hintData.message}`;
+        hintsDiv.appendChild(hintElement);
+      });
+    };
+  </script>
+
+</body>
+</html>
