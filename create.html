@@ -16,21 +16,24 @@
     <a href="view.html" class="mx-5 text-lg hover:underline">view hints</a>
   </div>
 
-  <div class="container w-11/12 max-w-4xl mx-auto mt-20 p-5 bg-gray-800 rounded-lg shadow-lg">
-    <h1 class="text-center text-2xl font-bold">create a new hint</h1>
+  <div class="container w-11/12 max-w-4xl mx-auto mt-20 p-8 bg-gray-800 rounded-lg shadow-lg">
+    <h1 class="text-center text-2xl font-bold text-indigo-500">create a new hint</h1>
     
-    <form id="create-form" class="mt-6">
-      <label for="hint" class="block text-lg font-semibold">Hint</label>
-      <input id="hint" type="text" placeholder="Enter your hint" class="mt-2 w-full p-4 bg-gray-700 rounded-md text-white">
+    <form id="create-form" class="mt-6 space-y-6">
+      <div>
+        <label for="hint" class="block text-lg font-semibold">Hint</label>
+        <input id="hint" type="text" placeholder="Enter your hint" class="mt-2 w-full p-4 bg-gray-700 rounded-md text-white">
+      </div>
       
-      <label for="message" class="block text-lg font-semibold mt-4">Message</label>
-      <input id="message" type="text" placeholder="Enter your message" class="mt-2 w-full p-4 bg-gray-700 rounded-md text-white">
+      <div>
+        <label for="message" class="block text-lg font-semibold">Message</label>
+        <input id="message" type="text" placeholder="Enter your message" class="mt-2 w-full p-4 bg-gray-700 rounded-md text-white">
+      </div>
       
-      <button type="submit" class="mt-6 w-full p-4 bg-blue-600 hover:bg-blue-700 rounded-md text-white">Submit Hint</button>
+      <button type="submit" class="w-full p-4 bg-indigo-600 hover:bg-indigo-700 rounded-md text-white transition-all">Submit Hint</button>
     </form>
   </div>
 
-  <!-- Background animation -->
   <div id="background-animation"></div>
 
   <script type="module">
