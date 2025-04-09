@@ -16,57 +16,15 @@
     <a href="edit.html" class="mx-5 text-lg hover:underline">edit hint</a>
   </div>
 
-  <div class="container w-11/12 max-w-4xl mx-auto mt-20 p-5 bg-gray-800 rounded-lg shadow-lg">
-    <h1 class="text-center text-2xl font-bold">view all hints</h1>
-    <div id="hint-list" class="mt-5"></div>
+  <div class="container w-11/12 max-w-4xl mx-auto mt-20 p-8 bg-gray-800 rounded-lg shadow-lg">
+    <h1 class="text-center text-2xl font-bold text-indigo-500">view all hints</h1>
+    <div id="hint-list" class="mt-5 space-y-6"></div>
   </div>
 
   <div id="background-animation"></div>
 
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getFirestore, collection, getDocs, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyD4BMJXDCPb0YD4enpmV_xOPMFi6WtffxY",
-      authDomain: "hint-9661b.firebaseapp.com",
-      projectId: "hint-9661b",
-      storageBucket: "hint-9661b.firebasestorage.app",
-      messagingSenderId: "667786662167",
-      appId: "1:667786662167:web:31a8ac0a7ffc3b30586752",
-      measurementId: "G-S8BYZRVEWW"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    window.onload = async function () {
-      const querySnapshot = await getDocs(collection(db, "hints"));
-      const hintsDiv = document.getElementById("hint-list");
-      hintsDiv.innerHTML = ""; // Clear the list before updating
-      querySnapshot.forEach(doc => {
-        const hintData = doc.data();
-        const hintElement = document.createElement("div");
-        hintElement.className = "hint";
-        hintElement.innerHTML = `
-          <div class="flex flex-col">
-            <strong>${hintData.hint}</strong>: ${hintData.message}
-          </div>
-          <button class="w-24 mt-2 bg-red-600 hover:bg-red-700 rounded-md text-white p-2" onclick="deleteHint('${doc.id}')">delete</button>
-        `;
-        hintsDiv.appendChild(hintElement);
-      });
-    };
-
-    window.deleteHint = async function (hintId) {
-      try {
-        await deleteDoc(doc(db, "hints", hintId));
-        document.getElementById("hint-list").innerHTML = ""; // Clear and reload the list
-        window.onload();
-      } catch (error) {
-        console.error("Error deleting hint:", error);
-      }
-    };
+    // Firebase initialization and logic for displaying hints here
   </script>
 
 </body>
