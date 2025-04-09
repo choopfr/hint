@@ -3,32 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>message vault</title>
+  <title>Message Vault</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-gray-900 text-white lowercase">
 
   <!-- taskbar at the top -->
-  <div class="taskbar flex justify-center bg-gray-800 py-3 fixed w-full top-0 z-50">
+  <div class="taskbar flex justify-center bg-gray-800 py-3 fixed w-full top-0 z-50 shadow-lg">
     <a href="create.html" class="mx-5 text-lg hover:underline">create message</a>
     <a href="view.html" class="mx-5 text-lg hover:underline">view messages</a>
   </div>
 
-  <div class="container w-11/12 max-w-4xl mx-auto mt-20 p-8 bg-gray-800 rounded-lg shadow-lg">
-    <h1 class="text-center text-4xl font-bold text-indigo-500">message vault</h1>
-    <p class="text-center text-lg mt-3 text-gray-300">create and unlock your messages with unique keys</p>
-    
-    <!-- Stats board (Message of the Day) -->
+  <div class="container w-11/12 max-w-4xl mx-auto mt-24 p-8 bg-gray-800 rounded-lg shadow-2xl">
+    <h1 class="text-center text-4xl font-bold text-indigo-400">message vault</h1>
+    <p class="text-center text-lg mt-3 text-gray-300">store, share, and access your messages securely</p>
+
+    <!-- Recent Messages -->
     <div class="mt-12 text-center bg-gray-700 p-6 rounded-lg shadow-lg">
-      <h2 class="text-2xl font-semibold text-indigo-400">Message of the Day</h2>
+      <h2 class="text-2xl font-semibold text-indigo-400">recent messages</h2>
       <p class="mt-4 text-lg text-gray-200">"Your key to unlocking tomorrow's wisdom!"</p>
-      <p class="mt-6 text-sm text-gray-500">Total Messages Created: <span id="total-messages">5</span></p>
+      <ul id="recent-messages" class="mt-6 space-y-4">
+        <li class="text-sm text-gray-500">No messages yet. Start creating!</li>
+      </ul>
     </div>
 
     <!-- Create Message Button -->
     <div class="mt-12 text-center">
-      <a href="create.html" class="p-6 inline-block bg-indigo-600 text-white rounded-md text-xl hover:bg-indigo-700 transition-all">create a new message</a>
+      <a href="create.html" class="p-6 inline-block bg-indigo-600 text-white rounded-md text-xl hover:bg-indigo-700 transition-all duration-300 transform hover:scale-105">create a new message</a>
     </div>
   </div>
 
