@@ -49,8 +49,10 @@
         const hintElement = document.createElement("div");
         hintElement.className = "hint";
         hintElement.innerHTML = `
-          <strong>${hintData.hint}</strong>: ${hintData.message}
-          <button class="w-24" onclick="deleteHint('${doc.id}')">delete</button>
+          <div class="flex flex-col">
+            <strong>${hintData.hint}</strong>: ${hintData.message}
+          </div>
+          <button class="w-24 mt-2 bg-red-600 hover:bg-red-700 rounded-md text-white p-2" onclick="deleteHint('${doc.id}')">delete</button>
         `;
         hintsDiv.appendChild(hintElement);
       });
