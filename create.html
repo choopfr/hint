@@ -41,33 +41,4 @@
 
     const firebaseConfig = {
       apiKey: "AIzaSyD4BMJXDCPb0YD4enpmV_xOPMFi6WtffxY",
-      authDomain: "hint-9661b.firebaseapp.com",
-      projectId: "hint-9661b",
-      storageBucket: "hint-9661b.firebasestorage.app",
-      messagingSenderId: "667786662167",
-      appId: "1:667786662167:web:31a8ac0a7ffc3b30586752",
-      measurementId: "G-S8BYZRVEWW"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    const form = document.getElementById('create-form');
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const messageContent = document.getElementById('message-content').value;
-      const messageKey = document.getElementById('message-key').value;
-
-      try {
-        const docRef = await addDoc(collection(db, "messages"), {
-          content: messageContent,
-          key: messageKey
-        });
-        console.log("Document written with ID: ", docRef.id);
-      } catch (e) {
-        console.error("Error adding document: ", e);
-      }
-    });
-  </script>
-</body>
-</html>
+      authDomain: "hint-9661b.firebaseapp.com
