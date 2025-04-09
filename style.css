@@ -78,3 +78,16 @@ nav a:hover {
     transform: translateY(0);
   }
 }
+#output-msg {
+  background-color: #1f1f1f; /* Slightly different shade */
+  border: 1px solid #333;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  color: #d1d1d1;
+  font-family: "Courier New", Courier, monospace; /* Monospace for that output feel */
+  margin-top: 1rem;
+  white-space: pre-wrap; /* To preserve any formatting like newlines */
+  word-wrap: break-word; /* To ensure long text wraps properly */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.6s ease;
+}
