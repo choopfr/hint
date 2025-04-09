@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Hint App</title>
-
-  <!-- Firebase SDKs -->
+  <meta charset="UTF-8" />
+  <title>View Hint</title>
+  <link rel="stylesheet" href="style.css" />
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js";
-    import { getFirestore, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+    import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyD4BMJXDCPb0YD4enpmV_xOPMFi6WtffxY",
@@ -21,29 +19,7 @@
     };
 
     const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
     const db = getFirestore(app);
-
-    window.createHint = async function () {
-      const hint = document.getElementById("create-hint").value.trim();
-      const message = document.getElementById("create-msg").value.trim();
-      const status = document.getElementById("create-status");
-
-      if (!hint || !message) {
-        status.textContent = "Please fill out both fields.";
-        return;
-      }
-
-      try {
-        await addDoc(collection(db, "hints"), { hint, message });
-        status.textContent = "✅ Hint saved!";
-        document.getElementById("create-hint").value = "";
-        document.getElementById("create-msg").value = "";
-      } catch (error) {
-        console.error("Error adding document: ", error);
-        status.textContent = "❌ Error saving hint.";
-      }
-    };
 
     window.fetchHint = async function () {
       const hint = document.getElementById("enter-hint").value.trim();
@@ -56,41 +32,25 @@
 
       try {
         const q = query(collection(db, "hints"), where("hint", "==", hint));
-        const querySnapshot = await getDocs(q);
-
-        if (!querySnapshot.empty) {
-          const doc = querySnapshot.docs[0];
-          output.textContent = doc.data().message;
+        const snapshot = await getDocs(q);
+        if (!snapshot.empty) {
+          output.textContent = snapshot.docs[0].data().message;
         } else {
           output.textContent = "No message found for that hint.";
         }
       } catch (error) {
-        console.error("Error fetching hint: ", error);
+        console.error(error);
         output.textContent = "❌ Error fetching hint.";
       }
     };
   </script>
-
-  <style>
-    body { font-family: sans-serif; padding: 2rem; }
-    input, button { margin: 0.5rem 0; padding: 0.5rem; font-size: 1rem; }
-    .section { margin-bottom: 2rem; border-bottom: 1px solid #ccc; padding-bottom: 1rem; }
-  </style>
 </head>
 <body>
-  <h1>🔥 Hint App</h1>
+  <nav><a href="create.html">➕ Create Hint</a></nav>
 
-  <div class="section">
-    <h2>Create Hint</h2>
-    <input id="create-hint" placeholder="Hint" />
-    <input id="create-msg" placeholder="Message" />
-    <button onclick="createHint()">Save Hint</button>
-    <p id="create-status"></p>
-  </div>
-
-  <div class="section">
-    <h2>Enter Hint</h2>
-    <input id="enter-hint" placeholder="Hint" />
+  <div class="container">
+    <h1>View a Hint</h1>
+    <input id="enter-hint" placeholder="Enter your hint..." />
     <button onclick="fetchHint()">Get Message</button>
     <p id="output-msg"></p>
   </div>
