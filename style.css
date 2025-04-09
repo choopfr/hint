@@ -7,7 +7,7 @@ body {
 
 .container {
   width: 90%;
-  max-width: 700px;
+  max-width: 800px;
   margin: 20px auto;
   padding: 20px;
   background-color: #1f1f1f;
@@ -37,76 +37,37 @@ button:hover {
 }
 
 .taskbar {
-  background-color: #333;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #1e1e1e;
   display: flex;
   justify-content: center;
   padding: 10px;
-  position: fixed;
-  width: 100%;
-  top: 0;
-  z-index: 100;
 }
 
 .taskbar a {
   color: #fff;
-  margin: 0 20px;
+  padding: 10px;
   text-decoration: none;
-  font-size: 1.1rem;
 }
 
 .taskbar a:hover {
   text-decoration: underline;
 }
 
-.hint {
-  background-color: #2c2c2c;
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 5px;
-  border: 1px solid #333;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.hint button {
-  background-color: #e74c3c;
-  border: none;
-  color: white;
-  padding: 5px 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  width: auto;
-}
-
-.hint button:hover {
-  background-color: #c0392b;
-}
-
-#background-animation {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: -1;
-}
-
-@keyframes dotMove {
-  0% {
-    transform: translate(0, 0);
-  }
-  100% {
-    transform: translate(var(--dx), var(--dy));
-  }
-}
-
 .dot {
   position: absolute;
-  width: 4px;
-  height: 4px;
-  background-color: white;
+  width: 6px;
+  height: 6px;
+  background-color: #fff;
   border-radius: 50%;
-  animation: dotMove 10s linear infinite;
+  animation: move 5s infinite;
+}
+
+@keyframes move {
+  0% { transform: translate(var(--dx), var(--dy)); }
+  50% { transform: translate(-var(--dx), -var(--dy)); }
+  100% { transform: translate(var(--dx), var(--dy)); }
 }
