@@ -1,31 +1,41 @@
 body {
   font-family: "Segoe UI", sans-serif;
-  background: #f7f9fc;
-  color: #333;
+  background-color: #121212;
+  color: #f0f0f0;
   padding: 2rem;
   max-width: 600px;
   margin: auto;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 h1, h2 {
-  color: #111;
+  color: #ffffff;
 }
 
 input, button {
   width: 100%;
-  margin-top: 0.5rem;
-  margin-bottom: 1rem;
+  margin: 0.5rem 0;
   padding: 0.75rem;
   font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 0.4rem;
+  border: 1px solid #333;
+  border-radius: 0.5rem;
+  background-color: #1e1e1e;
+  color: white;
+  transition: all 0.2s ease-in-out;
+  box-sizing: border-box;
+}
+
+input:focus, button:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.4);
 }
 
 button {
   background-color: #007bff;
-  color: white;
   border: none;
   cursor: pointer;
+  font-weight: bold;
 }
 
 button:hover {
@@ -33,18 +43,38 @@ button:hover {
 }
 
 .container {
-  background: white;
+  background: #1a1a1a;
   border-radius: 0.75rem;
   padding: 2rem;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.6s ease;
 }
 
 nav {
   margin-bottom: 2rem;
+  text-align: center;
 }
 
 nav a {
-  margin-right: 1rem;
+  margin: 0 1rem;
   text-decoration: none;
-  color: #007bff;
+  color: #66bfff;
+  font-weight: bold;
+  transition: color 0.2s;
+}
+
+nav a:hover {
+  color: #ffffff;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
