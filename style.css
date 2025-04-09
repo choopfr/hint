@@ -1,7 +1,5 @@
 body {
   font-family: 'Arial', sans-serif;
-  background-color: #121212;
-  color: #f4f4f4;
   margin: 0;
   padding: 0;
   overflow: hidden;
@@ -31,7 +29,7 @@ input, button {
   background-color: #333;
   color: #fff;
   font-size: 1rem;
-  box-sizing: border-box; /* Ensure consistent box model */
+  box-sizing: border-box;
 }
 
 button:hover {
@@ -78,6 +76,7 @@ button:hover {
   padding: 5px 10px;
   border-radius: 5px;
   cursor: pointer;
+  width: auto;
 }
 
 .hint button:hover {
@@ -94,29 +93,12 @@ button:hover {
   z-index: -1;
 }
 
-@media (max-width: 600px) {
-  body {
-    padding: 1rem;
-  }
-
-  .container {
-    width: 100%;
-    margin: 0;
-  }
-
-  input, button {
-    width: 100%;
-    font-size: 0.9rem;
-  }
-}
-
-/* Animation for random dots */
 @keyframes dotMove {
   0% {
-    transform: translateX(0) translateY(0);
+    transform: translate(0, 0);
   }
   100% {
-    transform: translateX(var(--dx)) translateY(var(--dy));
+    transform: translate(var(--dx), var(--dy));
   }
 }
 
