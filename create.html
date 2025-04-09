@@ -3,33 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>create message</title>
+  <title>Create Message</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-gray-900 text-white lowercase">
 
   <!-- taskbar at the top -->
-  <div class="taskbar flex justify-center bg-gray-800 py-3 fixed w-full top-0 z-50">
+  <div class="taskbar flex justify-center bg-gray-800 py-3 fixed w-full top-0 z-50 shadow-lg">
     <a href="index.html" class="mx-5 text-lg hover:underline">home</a>
     <a href="view.html" class="mx-5 text-lg hover:underline">view messages</a>
   </div>
 
-  <div class="container w-11/12 max-w-4xl mx-auto mt-20 p-8 bg-gray-800 rounded-lg shadow-lg">
-    <h1 class="text-center text-2xl font-bold text-indigo-500">create a new secure message</h1>
+  <div class="container w-11/12 max-w-4xl mx-auto mt-24 p-8 bg-gray-800 rounded-lg shadow-2xl">
+    <h1 class="text-center text-3xl font-bold text-indigo-400">create a new secure message</h1>
     
     <form id="create-form" class="mt-6 space-y-6">
       <div>
         <label for="message-content" class="block text-lg font-semibold">message content</label>
-        <input id="message-content" type="text" placeholder="enter your message" class="mt-2 w-full p-4 bg-gray-700 rounded-md text-white">
+        <input id="message-content" type="text" placeholder="enter your message" class="mt-2 w-full p-4 bg-gray-700 rounded-md text-white shadow-lg">
       </div>
 
       <div>
         <label for="message-key" class="block text-lg font-semibold">key (for unlocking)</label>
-        <input id="message-key" type="text" placeholder="enter a key for this message" class="mt-2 w-full p-4 bg-gray-700 rounded-md text-white">
+        <input id="message-key" type="text" placeholder="enter a key for this message" class="mt-2 w-full p-4 bg-gray-700 rounded-md text-white shadow-lg">
       </div>
       
-      <button type="submit" class="w-full p-4 bg-indigo-600 hover:bg-indigo-700 rounded-md text-white transition-all">create message</button>
+      <button type="submit" class="w-full p-4 bg-indigo-600 hover:bg-indigo-700 rounded-md text-white transition-all duration-300 transform hover:scale-105">create message</button>
     </form>
   </div>
 
