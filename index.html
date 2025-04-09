@@ -3,31 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hint App</title>
+  <title>message vault</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-gray-900 text-white lowercase">
 
-  <!-- Taskbar at the top -->
+  <!-- taskbar at the top -->
   <div class="taskbar flex justify-center bg-gray-800 py-3 fixed w-full top-0 z-50">
-    <a href="create.html" class="mx-5 text-lg hover:underline">create hint</a>
-    <a href="edit.html" class="mx-5 text-lg hover:underline">edit hint</a>
-    <a href="view.html" class="mx-5 text-lg hover:underline">view hints</a>
+    <a href="create.html" class="mx-5 text-lg hover:underline">create message</a>
+    <a href="view.html" class="mx-5 text-lg hover:underline">view messages</a>
   </div>
 
   <div class="container w-11/12 max-w-4xl mx-auto mt-20 p-8 bg-gray-800 rounded-lg shadow-lg">
-    <h1 class="text-center text-4xl font-bold text-indigo-500">hint app</h1>
-    <p class="text-center text-lg mt-3 text-gray-300">a space to create, edit, and view hints</p>
+    <h1 class="text-center text-4xl font-bold text-indigo-500">message vault</h1>
+    <p class="text-center text-lg mt-3 text-gray-300">create and unlock your messages with unique keys</p>
     <div class="mt-12 text-center">
-      <a href="create.html" class="p-6 inline-block bg-indigo-600 text-white rounded-md text-xl hover:bg-indigo-700 transition-all">create a new hint</a>
+      <a href="create.html" class="p-6 inline-block bg-indigo-600 text-white rounded-md text-xl hover:bg-indigo-700 transition-all">create a new message</a>
     </div>
   </div>
 
   <div id="background-animation"></div>
 
   <script>
-    // Random Dot Animation Script
+    // random dot animation script for smooth continuous movement
     function generateDots() {
       const background = document.getElementById('background-animation');
       
@@ -35,11 +34,11 @@
         const dot = document.createElement('div');
         dot.classList.add('dot');
         
-        // Random position
+        // random position and speed
         const x = Math.random() * window.innerWidth;
         const y = Math.random() * window.innerHeight;
-        const dx = (Math.random() - 0.5) * 2; // Random direction and speed in x-axis
-        const dy = (Math.random() - 0.5) * 2; // Random direction and speed in y-axis
+        const dx = (Math.random() - 0.5) * 2; // random direction and speed in x-axis
+        const dy = (Math.random() - 0.5) * 2; // random direction and speed in y-axis
 
         dot.style.left = `${x}px`;
         dot.style.top = `${y}px`;
@@ -52,6 +51,5 @@
 
     window.onload = generateDots;
   </script>
-
 </body>
 </html>
