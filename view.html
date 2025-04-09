@@ -4,20 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>View Hints</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="bg-gray-900 text-white lowercase">
 
   <!-- Taskbar at the top -->
-  <div class="taskbar">
-    <a href="index.html">Home</a>
-    <a href="create.html">Create Hint</a>
-    <a href="edit.html">Edit Hint</a>
+  <div class="taskbar flex justify-center bg-gray-800 py-3 fixed w-full top-0 z-50">
+    <a href="index.html" class="mx-5 text-lg hover:underline">home</a>
+    <a href="create.html" class="mx-5 text-lg hover:underline">create hint</a>
+    <a href="edit.html" class="mx-5 text-lg hover:underline">edit hint</a>
   </div>
 
-  <div class="container">
-    <h1>View All Hints</h1>
-    <div id="hint-list"></div>
+  <div class="container w-11/12 max-w-4xl mx-auto mt-20 p-5 bg-gray-800 rounded-lg shadow-lg">
+    <h1 class="text-center text-2xl font-bold">view all hints</h1>
+    <div id="hint-list" class="mt-5"></div>
   </div>
 
   <div id="background-animation"></div>
@@ -49,7 +50,7 @@
         hintElement.className = "hint";
         hintElement.innerHTML = `
           <strong>${hintData.hint}</strong>: ${hintData.message}
-          <button onclick="deleteHint('${doc.id}')">Delete</button>
+          <button class="w-24" onclick="deleteHint('${doc.id}')">delete</button>
         `;
         hintsDiv.appendChild(hintElement);
       });
