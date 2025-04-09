@@ -9,10 +9,20 @@
 <body>
 
   <div class="container">
-    <h1>Create or View Hints</h1>
+    <h1>Manage Hints</h1>
 
-    <!-- Form for creating or editing hints -->
-    <div id="create-form">
+    <!-- Dropdown for selecting actions -->
+    <div class="dropdown">
+      <select id="action-select" onchange="handleActionChange()">
+        <option value="">Select Action</option>
+        <option value="create">Create Hint</option>
+        <option value="edit">Edit Hint</option>
+        <option value="delete">Delete Hint</option>
+      </select>
+    </div>
+
+    <!-- Create/Edit Form (Visible based on dropdown selection) -->
+    <div id="create-form" style="display: none;">
       <input id="create-hint" placeholder="Enter a hint..." />
       <input id="create-msg" placeholder="Enter a message..." />
       <button onclick="createHint()">Save Hint</button>
@@ -35,7 +45,7 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, doc, getDoc, deleteDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, doc, getDoc, deleteDoc, getDocs, setDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyD4BMJXDCPb0YD4enpmV_xOPMFi6WtffxY",
@@ -86,6 +96,7 @@
           status.textContent = "✅ Hint saved!";
         }
         resetForm();
+        updateHintList(); // Update the hint list after creating/editing
       } catch (error) {
         console.error(error);
         status.textContent = "❌ Error saving hint.";
@@ -114,10 +125,24 @@
         await deleteDoc(hintRef);
         document.getElementById("create-status").textContent = "✅ Hint deleted!";
         resetForm();
+        updateHintList(); // Update the hint list after deletion
       } catch (error) {
         console.error(error);
         document.getElementById("create-status").textContent = "❌ Error deleting hint.";
       }
+    };
+
+    window.updateHintList = async function() {
+      const querySnapshot = await getDocs(collection(db, "hints"));
+      const hintsDiv = document.getElementById("hints");
+      hintsDiv.innerHTML = ""; // Clear the list before updating
+      querySnapshot.forEach((doc) => {
+        const hintData = doc.data();
+        const hintElement = document.createElement("div");
+        hintElement.className = "hint";
+        hintElement.innerHTML = `<strong>${hintData.hint}</strong>: ${hintData.message}<button onclick="fetchHint('${doc.id}')">Edit</button>`;
+        hintsDiv.appendChild(hintElement);
+      });
     };
 
     function resetForm() {
@@ -127,19 +152,28 @@
       document.getElementById("edit-btn").style.display = "none";
       document.getElementById("delete-btn").style.display = "none";
       document.getElementById("progress-bar").style.display = "none";
+      document.getElementById("action-select").value = ""; // Reset the dropdown
     }
 
-    // Fetch and display all hints
+    window.handleActionChange = function() {
+      const action = document.getElementById("action-select").value;
+      const createForm = document.getElementById("create-form");
+
+      if (action === "create") {
+        createForm.style.display = "block";
+        resetForm();
+      } else if (action === "edit") {
+        createForm.style.display = "block";
+      } else if (action === "delete") {
+        createForm.style.display = "none";
+      } else {
+        createForm.style.display = "none";
+      }
+    };
+
+    // Fetch and display all hints on load
     window.onload = async function() {
-      const querySnapshot = await getDocs(collection(db, "hints"));
-      const hintsDiv = document.getElementById("hints");
-      querySnapshot.forEach((doc) => {
-        const hintData = doc.data();
-        const hintElement = document.createElement("div");
-        hintElement.className = "hint";
-        hintElement.innerHTML = `<strong>${hintData.hint}</strong>: ${hintData.message}<button onclick="fetchHint('${doc.id}')">Edit</button>`;
-        hintsDiv.appendChild(hintElement);
-      });
+      await updateHintList();
     };
   </script>
 </body>
