@@ -3,34 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Create Hint</title>
+  <title>create message</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-gray-900 text-white lowercase">
 
-  <!-- Taskbar at the top -->
+  <!-- taskbar at the top -->
   <div class="taskbar flex justify-center bg-gray-800 py-3 fixed w-full top-0 z-50">
     <a href="index.html" class="mx-5 text-lg hover:underline">home</a>
-    <a href="edit.html" class="mx-5 text-lg hover:underline">edit hint</a>
-    <a href="view.html" class="mx-5 text-lg hover:underline">view hints</a>
+    <a href="view.html" class="mx-5 text-lg hover:underline">view messages</a>
   </div>
 
   <div class="container w-11/12 max-w-4xl mx-auto mt-20 p-8 bg-gray-800 rounded-lg shadow-lg">
-    <h1 class="text-center text-2xl font-bold text-indigo-500">create a new hint</h1>
+    <h1 class="text-center text-2xl font-bold text-indigo-500">create a new secure message</h1>
     
     <form id="create-form" class="mt-6 space-y-6">
       <div>
-        <label for="hint" class="block text-lg font-semibold">Hint</label>
-        <input id="hint" type="text" placeholder="Enter your hint" class="mt-2 w-full p-4 bg-gray-700 rounded-md text-white">
+        <label for="message-content" class="block text-lg font-semibold">message content</label>
+        <input id="message-content" type="text" placeholder="enter your message" class="mt-2 w-full p-4 bg-gray-700 rounded-md text-white">
       </div>
-      
+
       <div>
-        <label for="message" class="block text-lg font-semibold">Message</label>
-        <input id="message" type="text" placeholder="Enter your message" class="mt-2 w-full p-4 bg-gray-700 rounded-md text-white">
+        <label for="message-key" class="block text-lg font-semibold">key (for unlocking)</label>
+        <input id="message-key" type="text" placeholder="enter a key for this message" class="mt-2 w-full p-4 bg-gray-700 rounded-md text-white">
       </div>
       
-      <button type="submit" class="w-full p-4 bg-indigo-600 hover:bg-indigo-700 rounded-md text-white transition-all">Submit Hint</button>
+      <button type="submit" class="w-full p-4 bg-indigo-600 hover:bg-indigo-700 rounded-md text-white transition-all">create message</button>
     </form>
   </div>
 
@@ -53,23 +52,22 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    document.getElementById('create-form').addEventListener('submit', async (e) => {
+    const form = document.getElementById('create-form');
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      
-      const hint = document.getElementById('hint').value;
-      const message = document.getElementById('message').value;
+      const messageContent = document.getElementById('message-content').value;
+      const messageKey = document.getElementById('message-key').value;
 
       try {
-        await addDoc(collection(db, "hints"), {
-          hint: hint,
-          message: message
+        const docRef = await addDoc(collection(db, "messages"), {
+          content: messageContent,
+          key: messageKey
         });
-        alert('Hint created successfully!');
-      } catch (error) {
-        console.error("Error adding hint: ", error);
+        console.log("Document written with ID: ", docRef.id);
+      } catch (e) {
+        console.error("Error adding document: ", e);
       }
     });
   </script>
-
 </body>
 </html>
