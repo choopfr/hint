@@ -14,7 +14,6 @@ body {
   background-color: #1f1f1f;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  animation: slideUp 0.6s ease-in-out;
 }
 
 h1 {
@@ -73,6 +72,10 @@ button:hover {
   background-color: #ff4d00;
 }
 
+.dropdown {
+  margin: 20px 0;
+}
+
 @media (max-width: 600px) {
   body {
     padding: 1rem;
@@ -86,25 +89,5 @@ button:hover {
   input, button {
     width: 100%;
     font-size: 0.9rem;
-  }
-}
-
-@keyframes slideUp {
-  from {
-    transform: translateY(30px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
   }
 }
