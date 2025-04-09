@@ -43,6 +43,18 @@
         output.textContent = "❌ Error fetching hint.";
       }
     };
+
+    // Submit on Enter key
+    document.addEventListener("DOMContentLoaded", () => {
+      const inputs = document.querySelectorAll("input");
+      inputs.forEach((input) => {
+        input.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") {
+            fetchHint();
+          }
+        });
+      });
+    });
   </script>
 </head>
 <body>
