@@ -24,7 +24,7 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+    import { getFirestore, collection, getDocs, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyD4BMJXDCPb0YD4enpmV_xOPMFi6WtffxY",
@@ -47,9 +47,22 @@
         const hintData = doc.data();
         const hintElement = document.createElement("div");
         hintElement.className = "hint";
-        hintElement.innerHTML = `<strong>${hintData.hint}</strong>: ${hintData.message}`;
+        hintElement.innerHTML = `
+          <strong>${hintData.hint}</strong>: ${hintData.message}
+          <button onclick="deleteHint('${doc.id}')">Delete</button>
+        `;
         hintsDiv.appendChild(hintElement);
       });
+    };
+
+    window.deleteHint = async function (hintId) {
+      try {
+        await deleteDoc(doc(db, "hints", hintId));
+        document.getElementById("hint-list").innerHTML = ""; // Clear and reload the list
+        window.onload();
+      } catch (error) {
+        console.error("Error deleting hint:", error);
+      }
     };
   </script>
 
