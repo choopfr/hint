@@ -4,27 +4,33 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Create Hint</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="bg-gray-900 text-white lowercase">
 
   <!-- Taskbar at the top -->
-  <div class="taskbar">
-    <a href="index.html">Home</a>
-    <a href="edit.html">Edit Hint</a>
-    <a href="view.html">View Hints</a>
+  <div class="taskbar flex justify-center bg-gray-800 py-3 fixed w-full top-0 z-50">
+    <a href="index.html" class="mx-5 text-lg hover:underline">home</a>
+    <a href="edit.html" class="mx-5 text-lg hover:underline">edit hint</a>
+    <a href="view.html" class="mx-5 text-lg hover:underline">view hints</a>
   </div>
 
-  <div class="container">
-    <h1>Create a New Hint</h1>
-    <form id="create-form">
-      <input id="create-hint" placeholder="Enter a hint..." required />
-      <input id="create-msg" placeholder="Enter a message..." required />
-      <button type="button" onclick="createHint()">Save Hint</button>
-      <p id="create-status"></p>
+  <div class="container w-11/12 max-w-4xl mx-auto mt-20 p-5 bg-gray-800 rounded-lg shadow-lg">
+    <h1 class="text-center text-2xl font-bold">create a new hint</h1>
+    
+    <form id="create-form" class="mt-6">
+      <label for="hint" class="block text-lg font-semibold">Hint</label>
+      <input id="hint" type="text" placeholder="Enter your hint" class="mt-2 w-full p-4 bg-gray-700 rounded-md text-white">
+      
+      <label for="message" class="block text-lg font-semibold mt-4">Message</label>
+      <input id="message" type="text" placeholder="Enter your message" class="mt-2 w-full p-4 bg-gray-700 rounded-md text-white">
+      
+      <button type="submit" class="mt-6 w-full p-4 bg-blue-600 hover:bg-blue-700 rounded-md text-white">Submit Hint</button>
     </form>
   </div>
 
+  <!-- Background animation -->
   <div id="background-animation"></div>
 
   <script type="module">
@@ -44,25 +50,23 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    window.createHint = async function () {
-      const hint = document.getElementById("create-hint").value.trim();
-      const message = document.getElementById("create-msg").value.trim();
-      const status = document.getElementById("create-status");
-
-      if (!hint || !message) {
-        status.textContent = "Please fill out both fields.";
-        return;
-      }
+    document.getElementById('create-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const hint = document.getElementById('hint').value;
+      const message = document.getElementById('message').value;
 
       try {
-        await addDoc(collection(db, "hints"), { hint, message });
-        status.textContent = "✅ Hint saved!";
-        document.getElementById("create-form").reset();
+        await addDoc(collection(db, "hints"), {
+          hint: hint,
+          message: message
+        });
+        alert('Hint created successfully!');
       } catch (error) {
-        console.error(error);
-        status.textContent = "❌ Error saving hint.";
+        console.error("Error adding hint: ", error);
       }
-    };
+    });
   </script>
+
 </body>
 </html>
