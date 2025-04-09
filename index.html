@@ -27,6 +27,8 @@
 
   <script>
     // random dot animation script for smooth continuous movement
+    const dots = [];
+
     function generateDots() {
       const background = document.getElementById('background-animation');
       
@@ -46,10 +48,31 @@
         dot.style.setProperty('--dy', `${dy}px`);
 
         background.appendChild(dot);
+        dots.push(dot);
       }
     }
 
-    window.onload = generateDots;
+    function animateDots() {
+      dots.forEach(dot => {
+        const currentX = parseFloat(dot.style.left);
+        const currentY = parseFloat(dot.style.top);
+        const dx = parseFloat(dot.style.getPropertyValue('--dx'));
+        const dy = parseFloat(dot.style.getPropertyValue('--dy'));
+
+        dot.style.left = `${currentX + dx}px`;
+        dot.style.top = `${currentY + dy}px`;
+
+        if (currentX < 0 || currentX > window.innerWidth) dot.style.setProperty('--dx', -dx);
+        if (currentY < 0 || currentY > window.innerHeight) dot.style.setProperty('--dy', -dy);
+      });
+
+      requestAnimationFrame(animateDots);
+    }
+
+    window.onload = () => {
+      generateDots();
+      animateDots();
+    };
   </script>
 </body>
 </html>
