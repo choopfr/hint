@@ -38,6 +38,21 @@ h1, h2, p {
   height: 6px;
   background-color: #fff;
   border-radius: 50%;
+  opacity: 0.7;
+  animation: move 6s infinite linear;
+}
+
+/* Keyframes for dot animation */
+@keyframes move {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(100px, 100px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
 }
 
 /* Inputs styles */
@@ -63,4 +78,9 @@ button {
 button:hover {
   background-color: #444;
   transition: background-color 0.3s ease;
+  transform: scale(1.05);
+}
+
+button:active {
+  transform: scale(0.98);
 }
